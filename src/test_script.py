@@ -3,32 +3,26 @@
 import Metashape
 # argparse for using passed arguments
 import argparse
+import os
+import sys
 
 # This script will be passed:
-# frame_filepath as arg1, FRAME_LIMIT as arg2, frame_number as arg3
-# Since the names of each frame is just frame_number.jpg,
-# this script can use that fact to make a list of image filenames
-# to be added to the metashape project.
-# For now the idea is to have a "test" metashape project in my Documents
-# folder, which will be blank when starting and is saved every time
-# this script is called
+# beginning and end indexes of photo frame numbers to align / use
+# filepath of where to save the result
 
 # Save passed arguments into variables
-frame_filepath = sys.argv[1]
-FRAME_LIMIT = sys.argv[2]
-frame_number = sys.argv[3]
+first_frame = sys.argv[1]
+last_frame = sys.argv[2]
+frame_filepath = sys.argv[3]
 
 # Set up Metashape document and chunk
-# currently this doesn't work: there's a weird issue with Metashape
-# returning a NoneType object when using Metashape.app.document
+# going to be using a project "test.psx" that already exists and has
+# one chunk available for use
 doc = Metashape.Document()
 doc.open("/home/tanner/code/metashape_node/project/test.psx")
 chunk = doc.chunk()
 
-# Build list of filenames based on FRAME_LIMIT, frame_number,
-# and frame_filepath
-first_frame = frame_number - FRAME_LIMIT
-last_frame = frame_number
+# Build list of filenames
 frame_list = []
 for current_frame_num in range(first_frame, last_frame):
     current_frame_filepath = frame_filepath + str(current_frame_num) + ".jpeg"
